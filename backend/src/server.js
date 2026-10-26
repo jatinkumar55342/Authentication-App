@@ -38,12 +38,12 @@ app.use(
   })
 );
 
-app.get("/api/health", (req, res) => {
+app.get(["/health", "/api/health"], (req, res) => {
   res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use(["/auth", "/api/auth"], authRoutes);
+app.use(["/user", "/api/user"], userRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
