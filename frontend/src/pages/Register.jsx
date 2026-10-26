@@ -46,13 +46,19 @@ const Register = () => {
 
     setIsSubmitting(true);
     try {
-      await registerUser({
+      const response = await registerUser({
         username: formData.username,
         email: formData.email,
         password: formData.password,
       });
-      toast.success('Registration successful! Please check your email.');
-      navigate('/login');
+      const verificationToken = response.data?.data?.verificationToken;
+      if (verificationToken) {
+        toast.success('Account created! Verifying now...');
+        navigate(`/verify-email/${verificationToken}`);
+      } else {
+        toast.success('Registration successful! Please check your email.');
+        navigate('/login');
+      }
     } catch (error) {
       const message = error.response?.data?.message || 'Registration failed. Please try again.';
       toast.error(message);

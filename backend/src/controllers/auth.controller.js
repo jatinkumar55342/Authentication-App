@@ -51,7 +51,10 @@ async function register(req, res, next) {
     return res.status(201).json({
       success: true,
       message: "Registration successful. Please check your email to verify your account.",
-      data: { user: formatUser(user) },
+      data: {
+        user: formatUser(user),
+        verificationToken: token,
+      },
     });
   } catch (error) {
     next(error);
